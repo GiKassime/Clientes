@@ -48,7 +48,8 @@ do {
             }
             break;
         case 4:
-            # code...
+            $clienteDao = new  ClienteDAO();
+            $cliente = $clienteDao->buscarPorId($id);
             break;
         case 5:
             # code...
