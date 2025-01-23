@@ -6,7 +6,7 @@ class ClientePJ extends Cliente {
     private string $cnpj;
 
     public function getTipo(){
-        return "Pessoa Juridica";
+        return "J";
     }
     public function getNroDoc(){
         return $this->cnpj;

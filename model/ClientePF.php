@@ -6,7 +6,7 @@ class ClientePF extends Cliente {
     private string $cpf;
 
     public function getTipo(){
-        return "Pessoa Fisica";
+        return "F";
     }
     public function getNroDoc(){
         return $this->cpf;
