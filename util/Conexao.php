@@ -13,7 +13,7 @@ class Conexao {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             );
             $dadosCon = "mysql:host=localhost:3306;dbname=clientes";
-            self::$conn = new PDO($dadosCon,"root","bancodedados",$opcoes);
+            self::$conn = new PDO($dadosCon,"root","",$opcoes);
        
         }
         return self::$conn;
