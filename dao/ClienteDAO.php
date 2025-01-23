@@ -30,6 +30,35 @@ class ClienteDAO {
         }
         
     }
+    public function listarClientes(){
+        $sql = "SELECT * FROM clientes";
+        $con = Conexao::getConn();
+        $stm = $con->prepare($sql);
+        $stm->execute();
+        $registros = $stm->fetchAll();
+        return $this->mapClientes($registros);
+
+    }
+    private function mapClientes(array $registros){
+        $clientes = array();
+        foreach($registros as $reg){
+            $cliente = null;
+            if($reg['tipo'] == 'F'){
+                $cliente = new ClientePF();
+                $cliente->setNome($reg['nome']);
+                $cliente->setCpf($reg['cpf']);
+            }else{
+                $cliente = new ClientePJ();
+                $cliente->setRazaoSocial($reg['razao_social']);
+                $cliente->setCnpj($reg['cnpj']);
+            }
+            $cliente->setId($reg['id']);
+            $cliente->setNomeSocial($reg['nome_social']);
+            $cliente->setEmail($reg['email']);
+            array_push($clientes,$cliente);
+        }
+        return $clientes;
+    }
 }
 
 ?>

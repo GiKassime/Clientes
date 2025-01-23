@@ -19,7 +19,7 @@ do {
         case 1:
             //criar o objeto a ser persistido
             $cliente = new ClientePF();
-            $cliente->setNome(readline("Nome:"));            
+            $cliente->setNome(readline("Nome:"));
             $cliente->setNomeSocial(readline("Nome Social:"));
             $cliente->setCpf(readline("CPF:"));
             $cliente->setEmail(readline("Email:"));
@@ -28,8 +28,9 @@ do {
             echo "Cliente PF cadastrado com sucesso!\n";
             break;
         case 2:
+            //Cadastra PJ
             $cliente = new ClientePJ();
-            $cliente->setRazaoSocial(readline("Razão Social:"));            
+            $cliente->setRazaoSocial(readline("Razão Social:"));
             $cliente->setNomeSocial(readline("Nome Social:"));
             $cliente->setCnpj(readline("CNPJ:"));
             $cliente->setEmail(readline("Email:"));
@@ -39,7 +40,12 @@ do {
 
             break;
         case 3:
-            # code...
+            //Buscar os objt do bdd
+            $clienteDao = new ClienteDAO();
+            $clientes = $clienteDao->listarClientes();
+            foreach ($clientes as $c) {
+                printf("%d | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(), $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
+            }
             break;
         case 4:
             # code...
