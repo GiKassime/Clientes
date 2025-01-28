@@ -3,6 +3,13 @@ require_once 'model/ClientePF.php';
 require_once 'model/ClientePJ.php';
 require_once './dao/ClienteDAO.php';
 require_once 'util/Conexao.php';
+function listaClientes(){
+    $clienteDao = new ClienteDAO();
+    $clientes = $clienteDao->listarClientes();
+    foreach ($clientes as $c) {
+        printf("%d | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(), $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
+    }
+}
 //Teste conexão
 //$con = Conexao::getConn();
 //print_r($con);
@@ -41,18 +48,32 @@ do {
             break;
         case 3:
             //Buscar os objt do bdd
-            $clienteDao = new ClienteDAO();
-            $clientes = $clienteDao->listarClientes();
-            foreach ($clientes as $c) {
-                printf("%d | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(), $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
-            }
+            listaClientes();
             break;
         case 4:
+            listaClientes();
+            $id = readline("Digite o ID do cliente: ");
             $clienteDao = new  ClienteDAO();
-            $cliente = $clienteDao->buscarPorId($id);
+            $c = $clienteDao->buscarPorId($id) ;//coloquei assim pq como o id é unico só tem um cliente, logo eu não preciso deixar tipo array
+            $c = $c[0] ?? null;
+            if ($c != null) {
+                printf("%d | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(), $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
+            }else{
+                echo "\nCliente com id ".$id." não encontrado!\n";
+            }
             break;
         case 5:
-            # code...
+            listaClientes();
+            $id = readline("Digite o ID do cliente a ser excluido: ");
+            $clienteDao = new ClienteDAO();
+            $c = $clienteDao->buscarPorId($id) ;
+            $c = $c[0] ?? null;
+            if ($c != null) {
+                $clienteDao->excluirCliente($c->getId());
+                echo "Cliente excluido com sucesso!\n";
+            }else{
+                echo "\nCliente com id ".$id." não encontrado!\n";
+            }
             break;
         case 0:
             echo "\nPrograma encerrado\n";

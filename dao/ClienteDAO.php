@@ -39,6 +39,23 @@ class ClienteDAO {
         return $this->mapClientes($registros);
 
     }
+    public function buscarPorId($id){
+
+        $sql = "SELECT * FROM clientes WHERE id = $id";
+        $con = Conexao::getConn();
+        $stm = $con->prepare($sql);
+        $stm->execute();
+        $registros = $stm->fetchAll();
+        return $this->mapClientes($registros);
+
+    }
+    public function excluirCliente($id){
+        
+        $sql = "DELETE FROM clientes WHERE id = $id";
+        $con = Conexao::getConn();
+        $stm = $con->prepare($sql);
+        return $stm->execute();
+    }
     private function mapClientes(array $registros){
         $clientes = array();
         foreach($registros as $reg){
