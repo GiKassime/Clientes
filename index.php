@@ -54,10 +54,9 @@ do {
             listaClientes();
             $id = readline("Digite o ID do cliente: ");
             $clienteDao = new  ClienteDAO();
-            $c = $clienteDao->buscarPorId($id) ;//coloquei assim pq como o id é unico só tem um cliente, logo eu não preciso deixar tipo array
-            $c = $c[0] ?? null;
-            if ($c != null) {
-                printf("%d | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNomeSocial(), $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
+            $c = $clienteDao->buscarPorId($id) ;
+            if ($c) {
+                printf("%d | %s | %s | %s | %s\n", $c->getId(), $c->getTipo(), $c->getNo1meSocial(), $c->getIdentificacao(), $c->getNroDoc(), $c->getEmail());
             }else{
                 echo "\nCliente com id ".$id." não encontrado!\n";
             }
@@ -67,10 +66,12 @@ do {
             $id = readline("Digite o ID do cliente a ser excluido: ");
             $clienteDao = new ClienteDAO();
             $c = $clienteDao->buscarPorId($id) ;
-            $c = $c[0] ?? null;
             if ($c != null) {
-                $clienteDao->excluirCliente($c->getId());
-                echo "Cliente excluido com sucesso!\n";
+                if($clienteDao->excluirCliente($c->getId())){
+                    echo "\nCliente excluido com sucesso!\n";
+                }else{
+                    echo "\nErro ao excluir cliente!\n";
+                }
             }else{
                 echo "\nCliente com id ".$id." não encontrado!\n";
             }

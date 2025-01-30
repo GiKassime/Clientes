@@ -46,15 +46,20 @@ class ClienteDAO {
         $stm = $con->prepare($sql);
         $stm->execute();
         $registros = $stm->fetchAll();
-        return $this->mapClientes($registros);
+        $cliente = $this->mapClientes($registros);
+        if (count($cliente)){
+            return $cliente[0];
+        }else{
+            return null;
+        }
 
     }
     public function excluirCliente($id){
         
-        $sql = "DELETE FROM clientes WHERE id = $id";
+        $sql = "DELETE FROM clientes WHERE id = ?";
         $con = Conexao::getConn();
         $stm = $con->prepare($sql);
-        return $stm->execute();
+        return $stm->execute([$id]);
     }
     private function mapClientes(array $registros){
         $clientes = array();
